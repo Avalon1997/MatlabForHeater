@@ -58,8 +58,8 @@ piddic = dictionary(namestr,pidcell);
 
 % 计算稳态的实际中心温度值
 SSDataCell = cell(1, FilesNum);
-for i = 1:1:3 % 获取稳态时的温度数据（截取原始数据500以后的值）
-    SSDataCell{i} = DataCell{i}(500:end,:);
+for i = 1:1:FilesNum % 获取稳态时的温度数据（截取原始数据500以后的值）
+    SSDataCell{i} = DataCell{i}(1000:end,:);
 end
 CenterValue = zeros(FilesNum, 7);
 for i = 1:1:7
