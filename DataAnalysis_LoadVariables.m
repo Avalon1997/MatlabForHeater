@@ -5,24 +5,26 @@ clear;
 way = struct ( ...
     'OnePointOneFigure',1, ...
     'AllPointsOneFigure',2, ...
-    'OnePointDifferentAxes',3, ...
-    'OnePointOneFigureWithOA',4 ...
+    'OnePointDifferentAxesWith90OA',3, ...
+    'OnePointOneFigureWith80OA',4, ...
+    'OnePointOneFigureWith90OA',5 ...
     );
 
 % 获取所有绘图所用的资源数据
 % Folder = "E:/MatlabWorkStation/temperatureprogressionexperiment/";  % 文件夹路径
 Folder = "D:/EDProgram/MatlabForHeater/Compare/";
-Files = dir(Folder);                % 获取文件夹路径下文件，结构体类型
-Files = Files(~[Files.isdir]);      % 去掉本身和父文件夹，剩余的即为文件个数
-FilesNum = length(Files);           % 获取文件个数
-DataCell = cell(4,FilesNum);        % 创建文件数据存储元胞
-XCell = cell(1,FilesNum);           % 创建 X 轴长度存储元胞=   
-namestr = strings([1, FilesNum]);   % 字典 key 值字符串缓存数组
-pidcell = cell(1,FilesNum);        % 字典 values 值缓存元胞
-pidbuff = strings([7, 3]);         % 预设 PID 参数字符串缓存数组    
+Files = dir(Folder);                        % 获取文件夹路径下文件，结构体类型
+Files = Files(~[Files.isdir]);              % 去掉本身和父文件夹，剩余的即为文件个数
+FilesNum = length(Files);                   % 获取文件个数
+DataCell = cell(4,FilesNum);                % 创建文件数据存储元胞
+XCell = cell(1,FilesNum);                   % 创建 X 轴长度存储元胞=   
+namestr = strings([1, FilesNum]);           % 字典 key 值字符串缓存数组
+pidcell = cell(1,FilesNum);                 % 字典 values 值缓存元胞
+pidbuff = strings([7, 3]);                  % 预设 PID 参数字符串缓存数组    
 TableColumnNames = {'pt1','pt2','pt3','pt4','pt5','pt6','pt7',...               % table 表名
                     'pst1','pst2','pst3','pst4','pst5','pst6','pst7',...        
-                    'pp1','pp2','pp3','pp4','pp5','pp6','pp7'};                 
+                    'pp1','pp2','pp3','pp4','pp5','pp6','pp7'};  
+
 % 轮询文件夹下所有文件
 for i = 1:FilesNum
     str = string(strsplit(Files(i).name,'_'));
@@ -43,12 +45,15 @@ for i = 1:FilesNum
     pidcell{i} = pidbuff;
 end
 
+piddic = dictionary(namestr,pidcell);       % 创建 PID 参数字典
+
+% 拟定稳态为 1500 个采样之后，平均 600ms 采样一次，可得进入稳态的时间为：15分钟。
 % 计算稳点稳态后的最大/最小值
 for i = 1:1:FilesNum
     DataCell{2, i} = zeros(7, 2);
     for j = 1:1:7
-        DataCell{2, i}(j, 1) = max(DataCell{1, i}{1000:end, j});
-        DataCell{2, i}(j, 2) = min(DataCell{1, i}{1000:end, j});
+        DataCell{2, i}(j, 1) = max(DataCell{1, i}{1500:end, j});
+        DataCell{2, i}(j, 2) = min(DataCell{1, i}{1500:end, j});
     end
 end
 
@@ -56,7 +61,7 @@ end
 for i = 1:1:FilesNum
     DataCell{3, i} = zeros(7, 2);
     for j = 1:1:7
-        buffer = sortrows(DataCell{1, i}{1000:end,j},1,"ascend");
+        buffer = sortrows(DataCell{1, i}{1500:end,j},1,"ascend");
         buffer = buffer(floor((length(buffer) - length(buffer)*0.8)/2):floor((length(buffer) + floor(length(buffer)*0.8))/2),1);
         DataCell{3, i}(j, 1) = max(buffer);
         DataCell{3, i}(j, 2) = min(buffer);
@@ -67,20 +72,17 @@ end
 for i = 1:1:FilesNum
     DataCell{4, i} = zeros(7, 2);
     for j = 1:1:7
-        buffer = sortrows(DataCell{1, i}{1000:end,j},1,"ascend");
+        buffer = sortrows(DataCell{1, i}{1500:end,j},1,"ascend");
         buffer = buffer(floor((length(buffer) - length(buffer)*0.9)/2):floor((length(buffer) + floor(length(buffer)*0.9))/2),1);
         DataCell{4, i}(j, 1) = max(buffer);
         DataCell{4, i}(j, 2) = min(buffer);
     end
 end
 
-% 创建 PID 参数字典
-piddic = dictionary(namestr,pidcell);
-
 % 计算稳态的实际中心温度值
 SSDataCell = cell(1, FilesNum);
 for i = 1:1:FilesNum % 获取稳态时的温度数据（截取原始数据500以后的值）
-    SSDataCell{i} = DataCell{1, i}(1000:end,:);
+    SSDataCell{i} = DataCell{1, i}(1500:end,:);
 end
 CenterValue = zeros(FilesNum, 7);
 for i = 1:1:7
