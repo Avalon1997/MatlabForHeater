@@ -7,11 +7,12 @@ way = struct ( ...
     'AllPointsOneFigure',2, ...
     'OnePointDifferentAxesWith90OA',3, ...
     'OnePointOneFigureWith80OA',4, ...
-    'OnePointOneFigureWith90OA',5 ...
+    'OnePointOneFigureWith90OA',5, ...
+    'OneFileAllPointsDifferentAxesWith90OA',6 ...
     );
 
 % 获取所有绘图所用的资源数据
-% Folder = "E:/MatlabWorkStation/temperatureprogressionexperiment/";  % 文件夹路径
+% Folder = "E:/MatlabWorkStation/Compare/";  % 文件夹路径
 Folder = "D:/EDProgram/MatlabForHeater/Compare/";
 Files = dir(Folder);                        % 获取文件夹路径下文件，结构体类型
 Files = Files(~[Files.isdir]);              % 去掉本身和父文件夹，剩余的即为文件个数
@@ -79,7 +80,7 @@ for i = 1:1:FilesNum
     end
 end
 
-% 计算稳态的实际中心温度值
+% 计算稳态的实际中心温度值(平均温度值）
 SSDataCell = cell(1, FilesNum);
 for i = 1:1:FilesNum % 获取稳态时的温度数据（截取原始数据500以后的值）
     SSDataCell{i} = DataCell{1, i}(1500:end,:);
