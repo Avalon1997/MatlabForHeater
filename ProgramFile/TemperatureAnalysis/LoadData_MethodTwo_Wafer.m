@@ -28,6 +28,7 @@ WF_FILES_NUM = length(WF_FILES);
 wf_raw_datacell = cell(1, WF_FILES_NUM);
 wf_datacell = cell(1, WF_FILES_NUM);
 wf_xaxiscell = cell(1, WF_FILES_NUM);
+wf_ssxaxiscell = cell(1, WF_FILES_NUM);
 wf_ssdatacell = cell(1, WF_FILES_NUM);
 wf_namestr = strings([1, WF_FILES_NUM]);
 wf_statisticaldata = cell(1, WF_FILES_NUM);
@@ -44,18 +45,31 @@ for i = 1:1:WF_FILES_NUM
     wf_datacell{1, i} = wf_raw_datacell{1, i}(:,3:end);
     wf_ssdatacell{1, i} = wf_datacell{1, i}(WAFER_STEADY_STATE_NUMBER:end, :);
     wf_xaxiscell{1, i} = linspace(1, height(wf_datacell{1, i}), height(wf_datacell{1, i}));
+    wf_ssxaxiscell{1, i} = linspace(1, height(wf_ssdatacell{1, i}), height(wf_ssdatacell{1, i}));
 end
 
 
-
+% Statistical data of temperature, such as average, standard deviation, 
+% maximum, minimum. Format is as follow:
+% statisticaldata{1, i}(1, j) - average
+% statisticaldata{1, i}(2, j) - maximum
+% statisticaldata{1, i}(3, j) - minimum
+% statisticaldata{1, i}(4, j) - range
+% statisticaldata{1, i}(5, j) - standard deviation
+% statisticaldata{1, i}(6, j) - avg + 3sigma
+% statisticaldata{1, i}(7, j) - avg - 3sigma
+% statisticaldata{1, i}(8, j) - range with 6sigma
 for i = 1:1:WF_FILES_NUM
-    wf_statisticaldata{1 ,i} = zeros(5, 34);
+    wf_statisticaldata{1 ,i} = zeros(8, 34);
     for j = 1:1:34
         wf_statisticaldata{1, i}(1, j) = sum(table2array(wf_ssdatacell{1, i}(:, j)))/height(table2array(wf_ssdatacell{1, i}(:, j)));
-        wf_statisticaldata{1, i}(2, j) = std(table2array(wf_ssdatacell{1, i}(:, j)));
-        wf_statisticaldata{1, i}(3, j) = max(table2array(wf_ssdatacell{1, i}(:, j)));
-        wf_statisticaldata{1, i}(4, j) = min(table2array(wf_ssdatacell{1, i}(:, j)));
-        wf_statisticaldata{1, i}(5, j) = max(table2array(wf_ssdatacell{1, i}(:, j))) - min(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(2, j) = max(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(3, j) = min(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(4, j) = max(table2array(wf_ssdatacell{1, i}(:, j))) - min(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(5, j) = std(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(6, j) = wf_statisticaldata{1, i}(1, j) + 3 * std(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(7, j) = wf_statisticaldata{1, i}(1, j) - 3 * std(table2array(wf_ssdatacell{1, i}(:, j)));
+        wf_statisticaldata{1, i}(8, j) = 6 * std(table2array(wf_ssdatacell{1, i}(:, j)));
     end
 end
 

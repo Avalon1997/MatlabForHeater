@@ -46,8 +46,12 @@ hp_ssdatacell = cell(1, HP_FILES_NUM);                     % Cell for saving dat
 % maximum, minimum. Format is as follow:
 % statisticaldata{1, i}(1, j) - average
 % statisticaldata{1, i}(2, j) - standard deviation
+% statisticaldata{1, i}(2, j) - standard deviation
+% statisticaldata{1, i}(2, j) - standard deviation
+% statisticaldata{1, i}(2, j) - standard deviation
 % statisticaldata{1, i}(3, j) - maximum
 % statisticaldata{1, i}(4, j) - minimum
+% statisticaldata{1, i}(2, j) - standard deviation
 % i : file number
 % p : position number
 hp_statisticaldata = cell(1, HP_FILES_NUM);                % Cell for saving statistical data
@@ -70,13 +74,16 @@ end
 % According to the conditions above, get the AVG/STD/MAX/MIN value on 
 % steady state during full range.
 for i = 1:1:HP_FILES_NUM
-    hp_statisticaldata{1, i} = zeros(5, 7);
+    hp_statisticaldata{1, i} = zeros(8, 7);
     for j = 1:1:7
         hp_statisticaldata{1, i}(1, j) = sum(hp_ssdatacell{1, i}{:, j})/height(hp_ssdatacell{1, i}{:, j});
         hp_statisticaldata{1, i}(2, j) = std(hp_ssdatacell{1, i}{:, j});
-        hp_statisticaldata{1, i}(3, j) = max(hp_ssdatacell{1, i}{:, j});
-        hp_statisticaldata{1, i}(4, j) = min(hp_ssdatacell{1, i}{:, j});
-        hp_statisticaldata{1, i}(5, j) = max(hp_ssdatacell{1, i}{:, j}) - min(hp_ssdatacell{1, i}{:, j});
+        hp_statisticaldata{1, i}(3, j) = hp_statisticaldata{1, i}(1, j) + 3 * std(hp_ssdatacell{1, i}{:, j});
+        hp_statisticaldata{1, i}(4, j) = hp_statisticaldata{1, i}(1, j) - 3 * std(hp_ssdatacell{1, i}{:, j});
+        hp_statisticaldata{1, i}(5, j) = 6 * std(hp_ssdatacell{1, i}{:, j});
+        hp_statisticaldata{1, i}(6, j) = max(hp_ssdatacell{1, i}{:, j});
+        hp_statisticaldata{1, i}(7, j) = min(hp_ssdatacell{1, i}{:, j});
+        hp_statisticaldata{1, i}(8, j) = max(hp_ssdatacell{1, i}{:, j}) - min(hp_ssdatacell{1, i}{:, j});
     end
 end
 
