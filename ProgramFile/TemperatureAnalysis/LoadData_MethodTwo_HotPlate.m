@@ -87,23 +87,3 @@ for i = 1:1:HP_FILES_NUM
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
