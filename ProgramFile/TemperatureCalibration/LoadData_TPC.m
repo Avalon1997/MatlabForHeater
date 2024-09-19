@@ -1,13 +1,13 @@
 % --------------------------------------------------
 % 
-%               两点校正法数据预载入
+%               两点校正法数据预载入 第一版
 % 
 % --------------------------------------------------
 
 
 
 % 读取文件中数据
-folder = "D:/EDProgram/MatlabForHeater/TempCalibration/TwoPointCalibrationData";
+folder = "D:/EDProgram/MatlabForHeater/TempClibrationData/TwoPointCalibrationData";
 files = dir(folder);
 files = files(~[files.isdir]);
 files_num = length(files);
@@ -34,7 +34,7 @@ for i = 1:1:files_num
 end
 
 % 过滤数据
-filtered_data = cell(2,fix(files_num/2));
+filtered_data = cell(2,fix(files_num/2)); 
 % for i = 1:1:fix(files_num/2)
 %     if (height(rawdata{2, i}) < height(rawdata{1, i}))
 %         filtered_data{1, i} = table2array(rawdata{1, i}(end - height(rawdata{2, i}) + 1:end, 1:7));
