@@ -68,13 +68,13 @@ average_wafer_data = zeros(2, 7);
 
 for i = 1:1:fix(files_num/2)
     average_heater_data(i, :) = sum(filtered_data{1, i}(:, :))./height(filtered_data{1, i});
-    average_wafer_data(i, 1) = sum(filtered_data{2, i}(:, 3))/height(filtered_data{2, i}(:, 3));
-    average_wafer_data(i, 2) = sum(filtered_data{2, i}(:, 12))/height(filtered_data{2, i}(:, 12));
-    average_wafer_data(i, 3) = sum(filtered_data{2, i}(:, 16))/height(filtered_data{2, i}(:, 16));
-    average_wafer_data(i, 4) = sum(filtered_data{2, i}(:, 21))/height(filtered_data{2, i}(:, 21));
-    average_wafer_data(i, 5) = sum(filtered_data{2, i}(:, 25))/height(filtered_data{2, i}(:, 25));
-    average_wafer_data(i, 6) = sum(filtered_data{2, i}(:, 29))/height(filtered_data{2, i}(:, 29));
-    average_wafer_data(i, 7) = sum(filtered_data{2, i}(:, 33))/height(filtered_data{2, i}(:, 33));
+    average_wafer_data(i, 1) = sum(filtered_data{2, i}(:, 1))/height(filtered_data{2, i}(:, 1));
+    average_wafer_data(i, 2) = sum(filtered_data{2, i}(:, 10))/height(filtered_data{2, i}(:, 10));
+    average_wafer_data(i, 3) = sum(filtered_data{2, i}(:, 14))/height(filtered_data{2, i}(:, 14));
+    average_wafer_data(i, 4) = sum(filtered_data{2, i}(:, 19))/height(filtered_data{2, i}(:, 16));
+    average_wafer_data(i, 5) = sum(filtered_data{2, i}(:, 23))/height(filtered_data{2, i}(:, 23));
+    average_wafer_data(i, 6) = sum(filtered_data{2, i}(:, 27))/height(filtered_data{2, i}(:, 27));
+    average_wafer_data(i, 7) = sum(filtered_data{2, i}(:, 31))/height(filtered_data{2, i}(:, 31));
 end
 
 
