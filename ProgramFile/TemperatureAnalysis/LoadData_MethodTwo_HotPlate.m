@@ -16,7 +16,8 @@ enum_way_to_draw = struct ( ... % The way to draw line charts
     DRAW_OFF = 0, ...                       % Do not run the line chart code
     DRAW_BY_DATE = 1, ...                   % Draw a basic line charts on same figure different axis
     DRAW_WITH_ONE_FILE = 2, ...             % Draw a single file
-    DRAW_BY_DATE_ON_ONEFIGURE = 3 ...       % Draw a basic line charts on same figure same axis
+    DRAW_BY_DATE_ON_ONEFIGURE = 3, ...      % Draw a basic line charts on same figure same axis
+    DRAW_WITH_ONE_FILE_ON_ONEFIGURE = 4 ... % Draw a single file and all the line chart are in the same figure.
     ...
     );
 
