@@ -33,6 +33,7 @@ enum_fit_norm_status = struct ( ... % If fit the tempdata to a normal distributi
 
 % File information
 HP_FOLDERPATH = "D:\EDProgram\MatlabForHeater\HotPlateSensorsData\";       % Folder path
+% HP_FOLDERPATH = "D:\EDProgram\MatlabForHeater\LaboratoryTemperatureData\HotPlateData\";
 HP_FILES = dir(HP_FOLDERPATH);                            % Files information of struct
 HP_FILES = HP_FILES(~[HP_FILES.isdir]);                      % Get the real number of files
 HP_FILES_NUM = length(HP_FILES);                           % The number of files
